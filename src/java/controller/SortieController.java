@@ -49,6 +49,11 @@ public class SortieController implements Serializable {
         return ejbFacade;
     }
 
+    public void setEjbFacade(SortieFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+    
+
     public Sortie prepareCreate() {
         selected = new Sortie();
         initializeEmbeddableKey();
@@ -162,4 +167,14 @@ public class SortieController implements Serializable {
 
     }
 
+    public void setItems(List<Sortie> items) {
+        this.items = items;
+    }
+
+    public SortieFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+   
+    
 }

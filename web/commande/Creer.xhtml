@@ -21,8 +21,6 @@
                     <p:outputLabel value="Montant Total" for="montantTotal" />
                     <p:outputLabel id="montantTotal" value="#{commandeItemController.selectedCommande.montantTotal}"  />
                 </p:panelGrid><br></br>
-
-
             </h:form>
         </p:panel>
 
@@ -55,14 +53,12 @@
                             <h:outputText value="prix"/>
                         </f:facet>
                         <h:outputText value="#{item.produit.prix}"/>
-                        
+                    </p:column>
                         <p:column>
                         <f:facet name="header">
                             <h:outputText value="Quantite"/>
                         </f:facet>
                         <h:outputText value="#{item.quantite}"/>
-                    </p:column>
-                        
                     </p:column>
                     <p:column>
                         <f:facet name="header">

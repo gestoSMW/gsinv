@@ -82,7 +82,7 @@ public class Recepteur implements Serializable {
 
     @Override
     public String toString() {
-        return "bean.Recepteur[ id=" + id + " ]";
+        return nom;
     }
     
 }

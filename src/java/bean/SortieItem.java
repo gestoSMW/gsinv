@@ -30,8 +30,8 @@ public class SortieItem implements Serializable {
     private Sortie sortie;
 
     public Produit getProduit() {
-        if (produit == null) {
-            produit = new Produit();
+       if(produit==null){
+            produit=new Produit();
         }
         return produit;
     }

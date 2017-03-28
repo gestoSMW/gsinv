@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+    <h:body>
+        <p:panel>
+        <h:form id="SortieForm">
+                <h3><h:outputText value="Create sortie"/></h3>
+                <p:panelGrid columns="4">
+                    <p:outputLabel value="DateSortie:" for="dateSortie" />
+                    <p:calendar id="dateSortie"  pattern="dd/MM/yyyy" value="#{sortieItemController.selectedSortie.dateSortie}" showOn="button"/>
+                    <p:outputLabel value="Recepteur:" for="recepteur" />
+                    <p:selectOneMenu id="recepteur" value="#{sortieItemController.selectedSortie.recepteur}" >
+                        <f:selectItems value="#{recepteurController.itemsAvailableSelectMany}"  var="recepteurItem"  itemValue="#{recepteurItem}"  itemLabel="#{recepteurItem}"/>
+                    </p:selectOneMenu>
+                </p:panelGrid>
+            </h:form>
+        </p:panel>
+        <p:panel>
+            <h:form>
+                <h3><h:outputText value="Create Sortie Item"/></h3>
+                <p:panelGrid columns="4">
+                    
+                    <p:outputLabel value="Produit:" for="produit" />
+                    <p:selectOneMenu id="produit" value="#{sortieItemController.selected.produit}" >
+                        <f:selectItems value="#{produitController.itemsAvailableSelectOne}"  var="produitItem"  itemValue="#{produitItem}"  itemLabel="#{produitItem}"/>
+                    </p:selectOneMenu>
+                    
+                    <p:outputLabel value="Quantite:" for="quantite" />
+                    <p:inputText id="quantite" value="#{sortieItemController.selected.quantite}" title="Quantite" />
+                    <p:commandButton actionListener="#{sortieItemController.create()}" value="save" update="datalist, :SortieForm" />
+                </p:panelGrid>
+       
+                <h3><h:outputText value="List"/></h3>
+                <p:dataTable id="datalist" value="#{sortieItemController.sortieItems}" var="item">
+                      
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Produit"/>
+                        </f:facet>
+                        <h:outputText value="#{item.produit.libelle}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Quantite"/>
+                        </f:facet>
+                        <h:outputText value="#{item.quantite}"/>
+                    </p:column>
+                  
+                </p:dataTable>
+            </h:form>
+        </p:panel><br></br>
+        <p:commandButton action="#{sortieItemController.save()}" icon="ui-plus-bars" value="valider"/>
+    </h:body>
+</html>
+

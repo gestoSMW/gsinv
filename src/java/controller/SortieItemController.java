@@ -1,11 +1,14 @@
 package controller;
 
+import bean.Produit;
+import bean.Sortie;
 import bean.SortieItem;
 import controller.util.JsfUtil;
 import controller.util.JsfUtil.PersistAction;
 import service.SortieItemFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -18,6 +21,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
+import service.SortieFacade;
 
 @Named("sortieItemController")
 @SessionScoped
@@ -25,13 +29,25 @@ public class SortieItemController implements Serializable {
 
     @EJB
     private service.SortieItemFacade ejbFacade;
+    @EJB
+    private service.SortieFacade sortieFacade;
     private List<SortieItem> items = null;
     private SortieItem selected;
-
+    private List<SortieItem> sortieItems = null;
+    private Sortie selectedSortie;
+    private Produit produit;
+    
+    public void save() {
+        sortieFacade.save(selectedSortie, sortieItems);
+    }
+    
     public SortieItemController() {
     }
 
     public SortieItem getSelected() {
+        if(selected==null){
+            selected=new SortieItem();
+        }
         return selected;
     }
 
@@ -39,6 +55,37 @@ public class SortieItemController implements Serializable {
         this.selected = selected;
     }
 
+    public SortieFacade getSortieFacade() {
+        return sortieFacade;
+    }
+
+    public void setSortieFacade(SortieFacade sortieFacade) {
+        this.sortieFacade = sortieFacade;
+    }
+
+    public List<SortieItem> getSortieItems() {
+        if (sortieItems == null) {
+            sortieItems = new ArrayList();
+        }
+        return sortieItems;
+    }
+
+    public void setSortieItems(List<SortieItem> sortieItems) {
+        this.sortieItems = sortieItems;
+    }
+
+    public Sortie getSelectedSortie() {
+        if (selectedSortie == null) {
+            selectedSortie = new Sortie();
+        }
+        return selectedSortie;
+    }
+
+    public void setSelectedSortie(Sortie selectedSortie) {
+        this.selectedSortie = selectedSortie;
+    }
+
+    
     protected void setEmbeddableKeys() {
     }
 
@@ -58,9 +105,11 @@ public class SortieItemController implements Serializable {
     public void create() {
         persist(PersistAction.CREATE, ResourceBundle.getBundle("/Bundle").getString("SortieItemCreated"));
         if (!JsfUtil.isValidationFailed()) {
-            items = null;    // Invalidate list of items to trigger re-query.
+            sortieItems=null;
         }
-    }
+           getSortieItems().add(ejbFacade.clone(selected));   // Invalidate list of items to trigger re-query.
+        }
+    
 
     public void update() {
         persist(PersistAction.UPDATE, ResourceBundle.getBundle("/Bundle").getString("SortieItemUpdated"));
@@ -162,4 +211,21 @@ public class SortieItemController implements Serializable {
 
     }
 
+   
+    public void setEjbFacade(SortieItemFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public void setItems(List<SortieItem> items) {
+        this.items = items;
+    }
+
+    public Produit getProduit() {
+        return produit;
+    }
+
+    public void setProduit(Produit produit) {
+        this.produit = produit;
+    }
+    
 }
